@@ -9,7 +9,3 @@ class PollyClient:
 
   def __exit__(self, exc_type, exc_value, traceback):
     self.client.close()
-
-class ToMP3:
-  def __init__(self):
-    self.client = PollyClient()
