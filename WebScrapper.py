@@ -34,7 +34,7 @@ class scrapper():
         # UnboundLocalError issue if book name wrong. issue shouldn't happen with UI but should fine a way to manage
         # error.
 
-        bookTitle, bookWriter, context = self.bookDetails(webpage)
+        #bookTitle, bookWriter, context = self.bookDetails(webpage)
         links = self.chaptersList(webpage)
 
         try:
@@ -45,17 +45,19 @@ class scrapper():
             print("no details found for book title or detail. \n")
 
         if not links:
+            print("links not found")
             return False
 
         return bookTitle, bookWriter, context, links
 
     def loadChapter(self, webpage):
         """load book chapter."""
-        aurtherNotes = ""
+        aurtherNotes = "No writer notes"
 
         soup = BeautifulSoup(requests.get(webpage).text, "lxml")
 
-        bookTitle = soup.find("h1", class_="font-white").text
+        bookName = soup.find("h2", class_="font-white inline-block").text
+        chapterTitle= soup.find("h1", class_="font-white").text
         bookWriter = soup.find("a", class_="font-white").text
         aurther = soup.find_all("div", class_="portlet-body author-note")
         if len(aurther) == 1:
@@ -64,8 +66,7 @@ class scrapper():
             aurtherNotes = aurther[0].text + aurther[1].text
 
         context = soup.find("div", class_="chapter-inner chapter-content").text
+        context = context.replace('”','').replace('“','').replace('"','').replace("'","").replace("’","").replace("‘","")
 
-        return(bookTitle, bookWriter, aurtherNotes, context)
+        return(chapterTitle, bookWriter, context, aurtherNotes, bookName)
 
-gold = scrapper()
-print(gold.loadChapter("https://www.royalroad.com/fiction/36735/the-perfect-run/chapter/569531/2-story-branching"))
