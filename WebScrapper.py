@@ -55,7 +55,6 @@ class scrapper():
         aurtherNotes = "No writer notes"
 
         soup = BeautifulSoup(requests.get(webpage).text, "lxml")
-
         bookName = soup.find("h2", class_="font-white inline-block").text
         chapterTitle= soup.find("h1", class_="font-white").text
         bookWriter = soup.find("a", class_="font-white").text

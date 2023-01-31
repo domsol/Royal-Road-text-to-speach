@@ -3,7 +3,7 @@ import GUI_Root
 import WebScrapper
 import FolderManager
 import speech_system
-
+import GUI_side_alone
 
 #  https://www.wxpython.org/ look to change the GUI to a better front end like this
 #  https://github.com/Phanabani/minecraft-playtime-calculator
@@ -22,6 +22,7 @@ class MainPage(wx.Frame):
         self.chapterBrokenUp = list
 
     def InitUI(self):
+        """Main GUI code. This load 'home' interface."""
         panel = wx.Panel(self)
         books = WebScrapper.scrapper().HomePageBookLinks()
         bookLoc = 45
@@ -60,15 +61,18 @@ class MainPage(wx.Frame):
         self.ListCtrl.InsertColumn(0, '', width=50)
         self.ListCtrl.InsertColumn(1, 'Chapter', width=200)
 
-        btnRead = wx.Button(panel, label="read", pos=(700, 350))
-        btnRead.Bind(wx.EVT_BUTTON, self.toRead)
+        btnRead = wx.Button(panel, label="Read", pos=(700, 350))
+        btnRead.Bind(wx.EVT_BUTTON, self.readButton)
 
-    def toRead(self, event):
+        btnFileOpen = wx.Button(panel, label="Open File", pos=(775, 350))
+        btnFileOpen.Bind(wx.EVT_BUTTON, self.OnOpen)
+
+    def readButton(self, event):
         item = self.ListCtrl.GetFocusedItem()
         counter = 0
         for chapter in self.currectbook[3]:
             if item == counter:
-                self.chapterSpliter(WebScrapper.scrapper().loadChapter("https://www.royalroad.com" + chapter))
+                self.chapterMP3Maker("https://www.royalroad.com" + chapter)
                 break
             counter += 1
 
@@ -84,24 +88,40 @@ class MainPage(wx.Frame):
             self.ListCtrl.SetItem(counter, 1, chapter.rsplit('/', 1)[1].replace("-", " ") + "\n")
             counter += 1
 
-    def chapterSpliter(self, chapterDeatails):
+    def chapterMP3Maker(self, chapter):
+        """splits chapter into 2999 char then to a mp3 file"""
 
-        self.chapterBrokenUp.clear()
-        totalChapter = ("chapter " + chapterDeatails[0] + "\n writer: " + chapterDeatails[1] + "\n " + chapterDeatails[2])
+        a = GUI_side_alone.GUI_tools()
+        c = a.split_chapter(chapter)
+        a.MP3Convert(c)
+        a.mergeAudio()
 
-    def chapSplitter(self, totalChapter):
 
-        if totalChapter.len() < 3000:
-            self.chapterBrokenUp.append(totalChapter)
-        else:
+
+    def OnOpen(self, event):
+        """opens users file so they can select an MP3 file"""
+
+        # otherwise ask the user what new file to open
+        with wx.FileDialog(self, "Open XYZ file", wildcard="MP3 files (*.MP3)|*.MP3",
+                           style=wx.FD_OPEN | wx.FD_FILE_MUST_EXIST) as fileDialog:
+
+            if fileDialog.ShowModal() == wx.ID_CANCEL:
+                return  # the user changed their mind
+
+            # Proceed loading the file chosen by the user
+    def displayChapter(self, chapter, ):
+        """shows chapter details and player."""
+
+        return
+
 
 
 
 
 def main():
     app = wx.App()
-    ex = MainPage(None, title='Sizing')
-    ex.Show()
+    frame = MainPage(None, title="Royal Road TTS")
+    frame.Show()
     app.MainLoop()
 
 
