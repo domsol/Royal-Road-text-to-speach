@@ -1,6 +1,7 @@
 import WebScrapper
 import speech_system
 import FolderManager
+import os
 from pydub import AudioSegment
 
 
@@ -63,17 +64,23 @@ class GUI_tools:
         #  fine a way to only do this without use always using it
         FolderManager.MP3FileHandler().makeFile("../TTS/Audio/" + self.bookName.replace(" ", "_"))
 
-        combined.export("../TTS/Audio/" + self.bookName.replace(" ", "_") + "/" + self.chapterTitle + ".mp3", format="mp3")
+        location = ("../TTS/Audio/" + self.bookName.replace(" ", "_") + "/" + self.chapterTitle + ".mp3")
+        combined.export(location, format="mp3")
+        return location
         #to do: make it delete all files it used apart from one it just made, make it save all the clips to a temp folder then save new chapters to a book folder
+
+    def play_media_player(self, path):
+        if path is None:
+            return 0
+
+        os.startfile((os.path.dirname(__file__) + path))
+        return 1
 
 
 """
 a = GUI_tools()
 
 
-c = a.split_chapter("https://www.royalroad.com/fiction/21220/mother-of-learning/chapter/301784/3-the-bitter-truth")
-a.MP3Convert(c)
-
-a.mergeAudio()
+a.play_media_player("C:/Users/gamin/Desktop/TTS/TTS/Audio/Mister_Demon_Hunter/Chapter 2  Preparations.mp3");
 print("done")
 """

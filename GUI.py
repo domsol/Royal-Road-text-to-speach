@@ -1,8 +1,5 @@
 import wx
-import GUI_Root
 import WebScrapper
-import FolderManager
-import speech_system
 import GUI_side_alone
 
 #  https://www.wxpython.org/ look to change the GUI to a better front end like this
@@ -12,7 +9,7 @@ import GUI_side_alone
 
 class MainPage(wx.Frame):
 
-    def __init__(self, parent, title):
+    def __init__(self, parent):
         super(MainPage, self).__init__(parent, title="TTSRR",
                                        size=(350, 250))
 
@@ -68,13 +65,19 @@ class MainPage(wx.Frame):
         btnFileOpen.Bind(wx.EVT_BUTTON, self.OnOpen)
 
     def readButton(self, event):
+        """ read button on the GUI. send path to be loaded as mp3 then read"""
         item = self.ListCtrl.GetFocusedItem()
         counter = 0
         for chapter in self.currectbook[3]:
             if item == counter:
-                self.chapterMP3Maker("https://www.royalroad.com" + chapter)
+                path = self.chapterMP3Maker("https://www.royalroad.com" + chapter)
                 break
             counter += 1
+
+        issue = GUI_side_alone.GUI_tools().play_media_player(path[6:])
+
+        if not issue:
+            self.issueError()
 
     def dispenser_pause(self, event, my_value):
         counter = 0
@@ -94,8 +97,8 @@ class MainPage(wx.Frame):
         a = GUI_side_alone.GUI_tools()
         c = a.split_chapter(chapter)
         a.MP3Convert(c)
-        a.mergeAudio()
-
+        path = a.mergeAudio()
+        return path
 
 
     def OnOpen(self, event):
@@ -114,13 +117,15 @@ class MainPage(wx.Frame):
 
         return
 
+    def issueError(self):
+        print("Error - issue with return value")
 
 
 
 
 def main():
     app = wx.App()
-    frame = MainPage(None, title="Royal Road TTS")
+    frame = MainPage(None)
     frame.Show()
     app.MainLoop()
 
