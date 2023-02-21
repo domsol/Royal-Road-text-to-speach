@@ -105,22 +105,21 @@ class MainPage(wx.Frame):
         """opens users file so they can select an MP3 file"""
 
         # otherwise ask the user what new file to open
-        with wx.FileDialog(self, "Open XYZ file", wildcard="MP3 files (*.MP3)|*.MP3",
+        with wx.FileDialog(self, "Open audio file", wildcard="MP3 files (*.MP3)|*.MP3",
                            style=wx.FD_OPEN | wx.FD_FILE_MUST_EXIST) as fileDialog:
 
             if fileDialog.ShowModal() == wx.ID_CANCEL:
-                return  # the user changed their mind
 
-            # Proceed loading the file chosen by the user
-    def displayChapter(self, chapter, ):
-        """shows chapter details and player."""
+                return 0  # the user changed their mind
+            else:
+                issue = GUI_side_alone.GUI_tools().play_media_player(fileDialog.GetPath())
 
-        return
+                if not issue:
+                    self.issueError()
+
 
     def issueError(self):
         print("Error - issue with return value")
-
-
 
 
 def main():
@@ -129,5 +128,3 @@ def main():
     frame.Show()
     app.MainLoop()
 
-
-main()

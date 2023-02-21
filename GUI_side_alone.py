@@ -73,7 +73,14 @@ class GUI_tools:
         if path is None:
             return 0
 
-        os.startfile((os.path.dirname(__file__) + path))
+        if os.path.isfile(path):
+            os.startfile(path)
+        else:
+            try:
+                os.startfile((os.path.dirname(__file__) + path))
+            except:
+                raise Exception("File not found. error in selecting saved file")
+
         return 1
 
 
