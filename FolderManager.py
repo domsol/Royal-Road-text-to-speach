@@ -58,8 +58,7 @@ class MP3FileHandler:
 
     def listAllFile(self, folder):
         """Lists all the files inside a folder. Used to list all mp3 for merging."""
-
-        files = os.listdir(self.path+ "/" + folder)
+        files = os.listdir(self.path + "/" + folder)
         if len(files) == 0:
             self.folderNotFound(self.path + "/" + folder)
             return False
