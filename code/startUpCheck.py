@@ -4,20 +4,25 @@ import requests
 
 class startUp():
     def __init__(self):
+        """runs basic bests for each start up of script."""
         print("starting checks")
         path = os.getcwd()
 
+        # checks for auto
         if not os.path.exists(path[:-5] + "/Audio"):
             print("issue - making Audio and Holder file")
             os.makedirs(path[:-5] + "/Audio")
             os.makedirs(path[:-5] + "/Audio/Holder")
+        else:
+            if not os.path.exists(path[:-5] + "/Audio/Holder"):
+                print("issue - making Holder file")
+                os.makedirs(path[:-5] + "/Audio/Holder")
 
-        if not os.path.exists(path[:-5] + "/Audio/Holder"):
-            print("issue - making Holder file")
-            os.makedirs(path[:-5] + "/Audio/Holder")
-
+        # checks all python files inside code folder
         self.fileChecker(path)
+        # check audio setting files are made
         self.addOnChecker()
+        # checks if it can connect to the royal road website
         self.connectionCheck()
 
         print("checks done")
@@ -57,5 +62,3 @@ class startUp():
                 pass
         except:
             raise Exception("warning - connection to unable to be made")
-
-

@@ -1,12 +1,2 @@
-THEME_SELECT=           
-q 
-          
-         
-        
-       
-      
-     
-    
-   
-  
- 
+THEME_SELECT.hello.
+TEST.p

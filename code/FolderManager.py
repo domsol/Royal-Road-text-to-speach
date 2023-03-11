@@ -1,14 +1,32 @@
 import os
 
 
-class readAwriteSettings:
+class read_and_write_Settings:
     """Opens the setting file to read or write to it. used to store details even once application is closed."""
+
 
     def readSettings(self):
         """read and returns the info in setting file."""
+        settings = {"THEME_SELECT": "",
+                    "TEST": ""}
+        switch = True
+        settingKeyName = ""
         try:
             with open("settings.txt", "r") as FileContent:
-                return FileContent.read()
+
+                a = (FileContent.read()).replace("\n","")
+                b = a.split(".")
+                for settingType in b:
+                    if switch == True:
+                        switch = False
+                        settingKeyName = settingType
+
+                    elif switch == False:
+                        settings[settingKeyName] = settingType.strip()
+                        switch = True
+
+            return settings
+
         except FileNotFoundError:
             self.fileNotFound()
             self.readSettings()
@@ -18,33 +36,21 @@ class readAwriteSettings:
         with open("settings.txt", "x") as FileContent:
             FileContent.write("THEME_SELECT=\nDark")
 
-    def writeSettings(self, newContext):
+    def writeSettings(self, settingName, newContext):
         """write to the file with new text."""
-        #  this should be improved at later date
-        context = self.readSettings()
-        toChange = newContext.split("=")
-        toChange[0] = toChange[0] + "="
-        changeNext = False
-        items = []
-        click = False
+        #  set all setting name, loop to check setting to new setting, change that setting to newcontext
+        first = True
+        settings = self.readSettings()
+        settings[settingName] = newContext
 
-        for a in context.split("\n"):
-            if changeNext == False:
-                items.append(a)
-            else:
-                changeNext = False
-                items.append(toChange[1])
-
-            if a.rstrip() == toChange[0]:
-                changeNext = True
-
-
-        with open("settings.txt", "w") as fileContent:
-            for b in items:
-                if click:
-                    fileContent.write(b)
+        with open("settings.txt", "w") as FileContent:
+            for settingTypes in settings:
+                if first:
+                    FileContent.write(settingTypes + "." + settings[settingTypes])
+                    first = False
                 else:
-                    fileContent.write(b + "\n")
+                    FileContent.write(".\n" + settingTypes + "." + settings[settingTypes])
+        return 0
 
 
 class MP3FileHandler:
@@ -89,3 +95,6 @@ class MP3FileHandler:
     def makeFile(self, fileName):
         if not os.path.exists(fileName):
             os.makedirs(fileName)
+
+a = read_and_write_Settings()
+print(a.writeSettings("THEME_SELECT", "hello"))

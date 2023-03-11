@@ -1,7 +1,6 @@
 import Polly_connection
 
 
-
 class ToMP3:
     """class to change text to an mp3 file. saves it to Audio file. uses Boto3 Polly."""
 
