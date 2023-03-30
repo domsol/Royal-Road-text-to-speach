@@ -2,11 +2,14 @@ import os
 import requests
 
 
-class startUp():
+class startUp:
+    """Runs basic tests for each start up."""
+
     def __init__(self):
         """runs basic bests for each start up of script."""
         print("starting checks")
         path = os.getcwd()
+        self.testOutput = []
 
         # checks for auto
         if not os.path.exists(path[:-5] + "/Audio"):
@@ -25,6 +28,10 @@ class startUp():
         # checks if it can connect to the royal road website
         self.connectionCheck()
 
+        if len(self.testOutput) > 0:
+            for issues in self.testOutput:
+                print(issues + "\n")
+
         print("checks done")
 
     def fileChecker(self, path):
@@ -36,21 +43,22 @@ class startUp():
 
         for fileName in fileNames:
             if not os.path.exists(path + "/" + fileName):
-                raise Exception("missing files - please check for " + fileName + " and download.")
+                self.testOutput.append("missing files - please check for " + fileName + " and download.")
 
     def addOnChecker(self):
         """checks the needed files for aws and ffmpeg are installed"""
 
         path = os.path.expanduser("~/.aws")
         if not os.path.isfile(path + "/credentials"):
-            raise Exception("Warning aws credentials not found in users files. This is needed for text to speech. "
-                            "for a quick guide check: https://boto3.amazonaws.com/v1/documentation/api/latest/guide"
-                            "/quickstart.html.")
+            self.testOutput.append(
+                "Warning aws credentials not found in users files. This is needed for text to speech. "
+                "for a quick guide check: https://boto3.amazonaws.com/v1/documentation/api/latest/guide"
+                "/quickstart.html.")
 
         if not os.path.isdir("C:/ffmpeg") or not os.path.isdir("C:/ffmpeg/bin"):
-            raise Exception("Warning ffmpeg files not found in C files. This is needed for text to speech. "
-                            "for a quick guide check: https://blog.gregzaal.com/how-to-install-ffmpeg-on-windows/ or "
-                            "https://github.com/jiaaro/pydub#installation .")
+            self.testOutput.append("Warning ffmpeg files not found in C files. This is needed for text to speech. "
+                                   "for a quick guide check: https://blog.gregzaal.com/how-to-install-ffmpeg-on-windows"
+                                   "/ or https://github.com/jiaaro/pydub#installation .")
 
         # find way to check if path was made for ffmpeg
 
@@ -58,7 +66,7 @@ class startUp():
 
         try:
             res = requests.get('https://www.royalroad.com/home')
-            if (res.status_code):
+            if res.status_code:
                 pass
-        except:
-            raise Exception("warning - connection to unable to be made")
+        except ConnectionError:
+            self.testOutput.append("warning - connection to unable to be made")
