@@ -201,14 +201,21 @@ class MainPage(wx.Frame):
         """sets the book details in text boxes (title, blurb, chapters) once book button selected"""
         counter = 0
         self.currentBook = WebScrapper.scrapper().loadBook("https://www.royalroad.com" + my_value)
-        self.textBoxTitle.SetValue(self.currentBook[0])
-        self.textBoxAuthor.SetValue(self.currentBook[1])
-        self.textBoxBlerb.SetValue(self.currentBook[2])
-        self.ListChapters.DeleteAllItems()
-        for chapter in self.currentBook[3]:
-            self.ListChapters.InsertItem(counter, str(counter + 1))
-            self.ListChapters.SetItem(counter, 1, chapter.rsplit('/', 1)[1].replace("-", " ") + "\n")
-            counter += 1
+
+        if not self.currentBook:
+            print("Warning, unable to load book due to missing items in book. This can mean the chapters have been "
+                  "removed.")
+            #  cause a failed return of details if it's missing chapters or other details.
+        else:
+            self.textBoxTitle.SetValue(self.currentBook[0])
+            self.textBoxAuthor.SetValue(self.currentBook[1])
+            self.textBoxBlerb.SetValue(self.currentBook[2])
+
+            self.ListChapters.DeleteAllItems()
+            for chapter in self.currentBook[3]:
+                self.ListChapters.InsertItem(counter, str(counter + 1))
+                self.ListChapters.SetItem(counter, 1, chapter.rsplit('/', 1)[1].replace("-", " ") + "\n")
+                counter += 1
 
     def ButtonChangePage(self, event):
         """home button which refreshes home page or changes from search page to home page"""

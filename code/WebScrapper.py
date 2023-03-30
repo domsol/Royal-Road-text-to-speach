@@ -27,7 +27,7 @@ class scrapper:
             print("no details found for book title or detail. \n")
 
         if not links:
-            print("links not found")
+            print("Error, links not found")
             return False
 
         return bookTitle, bookWriter, context, links
