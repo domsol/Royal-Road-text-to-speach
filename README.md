@@ -10,6 +10,6 @@ To install you will need to:
 3. download ffmpg: guide - https://blog.gregzaal.com/how-to-install-ffmpeg-on-windows/ or https://github.com/jiaaro/pydub#installation
 4. run the 'requirements.txt' file included with the project download: using the command promt (type cmd in file explorer in code folder) and run 'pip install -r requirements.txt'
 
-one these steps are taken you can run the software by using the bat file 'run royal road TTS.bat'.
+one these steps are taken you can run the software by using the bat file 'run royal road TTS.bat'. Using Python 3.8
 
 please check License.txt for more details on license.
