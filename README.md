@@ -8,8 +8,9 @@ To install you will need to:
 1. clone this project: guide - https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository
 2. make a account for amazon AWS: guide - https://boto3.amazonaws.com/v1/documentation/api/latest/guide/quickstart.html
 3. download ffmpg: guide - https://blog.gregzaal.com/how-to-install-ffmpeg-on-windows/ or https://github.com/jiaaro/pydub#installation
-4. run the 'requirements.txt' file included with the project download: using the command promt (type cmd in file explorer in code folder) and run 'pip install -r requirements.txt'
+4. run the 'requirements.txt' file included with the project download: using the command promt (type cmd in file explorer in code folder) and run 'pip install -r requirements.txt'. 
+5. may need to run (pip install -r requirements.txt --upgrade). Python 3.10 is current default.
 
-one these steps are taken you can run the software by using the bat file 'run royal road TTS.bat'.
+once these steps are taken you can run the software by using the bat file 'run royal road TTS.bat'.
 
 please check License.txt for more details on license.
