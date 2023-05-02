@@ -14,3 +14,20 @@ To install you will need to:
 once these steps are taken you can run the software by using the bat file 'run royal road TTS.bat'.
 
 please check License.txt for more details on license.
+
+# Interface
+
+![image](https://user-images.githubusercontent.com/74562643/235756382-0aa47d90-6276-481a-8db5-a56bb91d34fc.png)
+
+Home page. Shows some of the books on the Royal Road home page on the left. On the right is the book details.
+
+To read a book select the title on the right then click the chapter on the right. Under that click the Read button. To load pre-saved mp3 file select the Open file button, select the mp3 file and then open it.
+
+To reload the book select Home at the top of the page. To search for a book select the top right text box. write the name of the book press enter.
+
+![image](https://user-images.githubusercontent.com/74562643/235757793-d9181a5f-c855-4dbc-b31d-f1ace62810b1.png)
+
+This will load upto 1000 books that match this. A simple search like 'a' whill cause a  deplay as it searchs so many books. To select the book do the same as main page by selecting the book title. 
+
+To return to the home page, select Home button at the top of the right hand page. 
+
