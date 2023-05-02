@@ -56,7 +56,7 @@ class scrapper:
             searchInput += item + "%20"
 
         while True:
-            if counter > 100:
+            if counter > 50:
                 print("error, overflowing search result.")
                 break
 
